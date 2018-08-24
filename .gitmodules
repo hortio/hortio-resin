@@ -1,0 +1,4 @@
+[submodule "hortio-control-api"]
+	path = hortio-control-api
+	url = git@github.com:hortio/hortio-control-api.git
+	branch = vdnh

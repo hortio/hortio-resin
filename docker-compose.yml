@@ -1,7 +1,7 @@
 version: '2'
 services:
-  hortio-control-api:
-    build: ./hortio-control-api
+  control-api:
+    image: hortio/hortio-control-api:vdnh
     privileged: true
     ports:
       - "8080:8080"

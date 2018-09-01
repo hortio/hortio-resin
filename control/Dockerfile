@@ -10,11 +10,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN pip install pipenv
 
-RUN git clone https://github.com/hortio/hortio-control-rpi.git /app
+RUN mkdir /app
 
 WORKDIR /app
 
-RUN git checkout vdnh
+RUN git clone https://github.com/hortio/hortio-control-rpi.git /app && git checkout 7c99e771babb3f8addc5ba70edab4977a68dd50d
 
 RUN pipenv install
 

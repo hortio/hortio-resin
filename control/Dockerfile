@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     python \
     python-pip \
     git \
+    build-essential \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 

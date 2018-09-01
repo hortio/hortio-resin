@@ -1,15 +1,18 @@
 version: '2'
 services:
-  control-api:
-    image: hortio/hortio-control-api:vdnh
-    privileged: true
-    ports:
-      - "8080:8080"
   control:
     image: hortio/hortio-control-rpi:vdnh
+    build: ./control
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
+    restart: always  
   dashboard:
     image: hortio/hortio-web-dashboard:vdnh
     ports:
       - "8081:80"    
+    restart: always  
+  ar:
+    image: hortio/hortio-ar:vdnh
+    ports:
+      - "8082:80"    
+    restart: always  

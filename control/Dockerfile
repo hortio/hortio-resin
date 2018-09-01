@@ -3,6 +3,7 @@ LABEL maintainer="Sergei Silnov <po@kumekay.com>"
 
 RUN apt-get update && apt-get install -y \
     python \
+    python-dev \
     python-pip \
     git \
     build-essential \

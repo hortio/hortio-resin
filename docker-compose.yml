@@ -9,16 +9,6 @@ services:
     privileged: true
     depends_on:
       - owfs
-  owfs:
-    image: hortio/hortio-owfs-rpi:vdnh
-    devices:
-      - "/dev/i2c-1:/dev/i2c-1"
-    volumes: 
-      - "/lib/modules:/lib/modules"
-    restart: always  
-    privileged: true
-    cap_add:
-      - ALL
   dashboard:
     image: hortio/hortio-web-dashboard:vdnh
     ports:

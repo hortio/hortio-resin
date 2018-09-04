@@ -5,6 +5,7 @@ import Adafruit_GPIO.I2C as I2C
 import Adafruit_GPIO.MCP230xx as MCP
 import time
 import lib.Adafruit_BME280 as BME280
+import pyownet
 
 PCA9548A_ADDR = 0x70
 PCA9548A_CH0 = 0b00000001
@@ -32,6 +33,9 @@ if __name__ == '__main__':
         # time.sleep(5)
         # mcp.output(0, GPIO.LOW)  # Pin 0 Low
         # time.sleep(5)
+        owproxy = pyownet.protocol.proxy(host="owfs", port=4304)
+        print(owproxy.dir())
+        print(owproxy.read(owproxy.dir()[0] + 'temperature'))
 
         for channel in [PCA9548A_CH0, PCA9548A_CH1]:
             pca9548a_setup(channel)
@@ -45,7 +49,7 @@ if __name__ == '__main__':
             degrees = bme280.read_temperature()
             humidity = bme280.read_humidity()
 
-            print 'Temp      = {0:0.3f} deg C'.format(degrees)
-            print 'Humidity  = {0:0.2f} %'.format(humidity)
-            
+            print('Temp      = {0:0.3f} deg C'.format(degrees))
+            print('Humidity  = {0:0.2f} %'.format(humidity))
+
         time.sleep(5)

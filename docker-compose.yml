@@ -6,6 +6,19 @@ services:
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     restart: always  
+    privileged: true
+    depends_on:
+      - owfs
+  owfs:
+    image: hortio/hortio-owfs-rpi:vdnh
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+    volumes: 
+      - "/lib/modules:/lib/modules"
+    restart: always  
+    privileged: true
+    cap_add:
+      - ALL
   dashboard:
     image: hortio/hortio-web-dashboard:vdnh
     ports:
@@ -16,3 +29,15 @@ services:
     ports:
       - "8082:80"    
     restart: always  
+  owfs:
+    image: hortio/hortio-owfs-rpi
+    ports: 
+      - "4304:4304"
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+    volumes: 
+      - "/lib/modules:/lib/modules"
+    restart: always  
+    privileged: true
+    cap_add:
+      - ALL

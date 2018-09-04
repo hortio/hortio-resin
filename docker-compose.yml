@@ -25,9 +25,5 @@ services:
       - "4304:4304"
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
-    volumes: 
-      - "/lib/modules:/lib/modules"
     restart: always  
     privileged: true
-    cap_add:
-      - ALL

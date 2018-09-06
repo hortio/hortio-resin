@@ -1,5 +1,6 @@
 # build environment
 FROM node:8-alpine as builder
+RUN apk add --no-cache python
 RUN mkdir /app
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH

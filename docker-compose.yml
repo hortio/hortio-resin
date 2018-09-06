@@ -11,6 +11,7 @@ services:
       - owfs
   dashboard:
     image: hortio/hortio-web-dashboard:vdnh
+    build: ./dashboard
     ports:
       - "8081:443"    
     restart: always  

@@ -1,1 +1,4 @@
 .vscode
+
+dashboard/node_modules
+dashboard/build

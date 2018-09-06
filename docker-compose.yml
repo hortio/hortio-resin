@@ -12,12 +12,12 @@ services:
   dashboard:
     image: hortio/hortio-web-dashboard:vdnh
     ports:
-      - "8081:80"    
+      - "8081:443"    
     restart: always  
   ar:
     image: hortio/hortio-ar:vdnh
     ports:
-      - "8082:80"    
+      - "8082:443"    
     restart: always  
   owfs:
     image: hortio/hortio-owfs-rpi

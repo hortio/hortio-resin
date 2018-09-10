@@ -5,7 +5,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Hortio Web Dashboard</h1>
+          <h1 className="App-title">Гидропонная система для выращивания растений</h1>
         </header>
         <p className="App-intro">
         </p>

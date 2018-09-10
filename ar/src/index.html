@@ -1,0 +1,18 @@
+<!doctype HTML>
+<html>
+<script src="vendor/aframe.min.js"></script>
+<script src="vendor/aframe-ar.js"></script>
+<script src="index.js"></script>
+
+<body style='margin : 0px; overflow: hidden; border: 3px; border-color: aquamarine;'>
+  <a-scene arjs='debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3_PARITY65;'>
+    <a-marker type='barcode' value='1'>
+      <a-plane position="0 -2 0" rotation="-90 0 0" width="4" height="1" color="#7BC8A4" shadow>
+        <a-text value="Plant description" position="0 0 0.01"></a-text>
+      </a-plane>
+    </a-marker>
+  </a-scene>
+</body>
+<a-entity camera></a-entity>
+
+</html>

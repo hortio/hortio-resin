@@ -7,10 +7,18 @@
 <body style='margin : 0px; overflow: hidden; border: 3px; border-color: aquamarine;'>
   <a-scene arjs='debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3_PARITY65;'>
     <a-marker type='barcode' value='1'>
-      <a-plane position="0 -2 0" rotation="-90 0 0" width="4" height="1" color="#7BC8A4" shadow>
-        <a-text value="Plant description" position="0 0 0.01"></a-text>
+      <a-plane position="0 0 -1.5" rotation="-90 0 0" width="10" height="2" color="#555">
+          <a-text width="10" position="0 0 0.4" wrap-count="14" align="center"  value="T: 23.1C H: 60%">
+            </a-text>
       </a-plane>
     </a-marker>
+
+    <a-marker type='barcode' value='5'>
+        <a-plane position="0 0 -1.5" rotation="-90 0 0" width="10" height="2" color="#555">
+            <a-text width="9.5" position="0 0 0.4" wrap-count="14" align="center"  value="T: 23.5C H: 63%">
+              </a-text>
+        </a-plane>
+      </a-marker>
   </a-scene>
 </body>
 <a-entity camera></a-entity>

@@ -8,6 +8,7 @@ adafruit-gpio = "*"
 "smbus2" = "*"
 "rpi.gpio" = "*"
 pyownet = "*"
+blynk-library-python = "*"
 
 [dev-packages]
 

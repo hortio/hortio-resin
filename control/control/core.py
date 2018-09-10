@@ -1,16 +1,33 @@
 #!/usr/bin/python
 
+import time
+import BlynkLib
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.I2C as I2C
 import Adafruit_GPIO.MCP230xx as MCP
-import time
-import lib.Adafruit_BME280 as BME280
 import pyownet
+
+import lib.Adafruit_BME280 as BME280
 
 PCA9548A_ADDR = 0x70
 PCA9548A_CH0 = 0b00000001
 PCA9548A_CH1 = 0b00000010
 
+systemState = {
+    "layer0": {
+        "t": 0,
+        "h": 0
+    },
+    "layer1": {
+        "t": 0,
+        "h": 0
+    },
+    "solution": {
+        "t": 0,
+        "ph": 0,
+        "ec": 0
+    }
+}
 
 def pca9548a_setup(pca9548a_channel):
     """
@@ -20,7 +37,6 @@ def pca9548a_setup(pca9548a_channel):
     pca9548a.writeRaw8(pca9548a_channel)
     time.sleep(0.1)
     print "PCA9548A I2C channel status:", bin(pca9548a.readRaw8())
-
 
 if __name__ == '__main__':
   # Setup

@@ -17,6 +17,7 @@ services:
     restart: always  
   ar:
     image: hortio/hortio-ar:vdnh
+    build: ./ar
     ports:
       - "8082:443"    
     restart: always  

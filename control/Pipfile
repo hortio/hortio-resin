@@ -6,9 +6,10 @@ name = "pypi"
 [packages]
 adafruit-gpio = "*"
 "smbus2" = "*"
-"rpi.gpio" = "*"
 pyownet = "*"
-blynk-library-python = "*"
+flask = "*"
+lsm-db = "*"
+flask-basicauth = "*"
 
 [dev-packages]
 

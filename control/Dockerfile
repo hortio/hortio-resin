@@ -18,5 +18,11 @@ WORKDIR /app
 
 RUN pipenv install
 
+EXPOSE 5000
+
+WORKDIR /app/control
+
+ENV FLASK_ENV=production
+
 # Define default command
-CMD ["pipenv", "run", "python", "/app/control/core.py"] 
+CMD ["pipenv", "run", "python", "app.py"] 

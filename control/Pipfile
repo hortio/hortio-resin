@@ -10,6 +10,7 @@ pyownet = "*"
 flask = "*"
 lsm-db = "*"
 flask-basicauth = "*"
+waitress = "*"
 
 [dev-packages]
 

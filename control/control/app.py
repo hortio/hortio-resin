@@ -11,6 +11,7 @@ from flask import Flask, render_template, request
 from flask_basicauth import BasicAuth
 from lsm import LSM
 import pyownet
+from waitress import serve
 
 import lib.Adafruit_BME280 as BME280
 
@@ -76,6 +77,9 @@ def pca9548a_setup(pca9548a_channel):
 db = LSM('/data/hortio.ldb')
 mcp = MCP.MCP23008()
 
+for out in range(8):
+    mcp.setup(out, GPIO.OUT)
+
 def db_get(key):
     if key not in DEFAULT_STATES:
         return None 
@@ -126,10 +130,6 @@ def dashboard():
 
     return render_template('dashboard.html', outputs = get_outputs())
 
-def setup_outputs():
-    for out in range(8):
-        mcp.setup(out, GPIO.OUT)
-
 def run_inputs():
     while True:
         owproxy = pyownet.protocol.proxy(host="owfs", port=4304)
@@ -151,5 +151,4 @@ def run_inputs():
         time.sleep(int(os.getenv('REPORT_PERIOD', '10')))
 
 if __name__ == "__main__":
-    setup_outputs()
-    app.run()
+    serve(app, host='0.0.0.0', port=5000)    

@@ -10,8 +10,7 @@ services:
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     ports:
-      - "8083:5000" 
-      - "80:5000"    
+      - "80:5000" 
     restart: always  
     privileged: true
     depends_on:

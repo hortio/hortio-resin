@@ -138,7 +138,12 @@ basic_auth = BasicAuth(app)
 
 def day_of_cycle():
     """Return day of cycle (0 - 45)"""
-    start_date = parse(db_get('cycle-start-date')).date()
+    try:
+        timestamp = parse(db_get('cycle-start-date'))
+    except ValueError:
+        timestamp = parse(DEFAULT_STATES["cycle-start-date"])
+    
+    start_date = timestamp.date()
     return relativedelta(datetime.now().date(), start_date).days
 
 
@@ -166,7 +171,13 @@ def dashboard():
 @app.route('/cycle_date/', methods=['POST'])
 @basic_auth.required
 def cycle_date():
-    # TODO
+    try:
+        date = request.form["cycle-date"]
+    except KeyError:
+        date = str(datetime.now().date())
+
+    db_set("cycle-start-date", date)
+
     return redirect('/')
 
 

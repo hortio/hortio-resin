@@ -9,12 +9,18 @@ services:
       - 'control-data:/data'
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
-    ports:
-      - "8083:5000"    
     restart: always  
     privileged: true
     depends_on:
       - owfs
+  api:
+    image: hortio/hortio-control-api:vdnh
+    build: ./api
+    volumes: 
+      - 'control-data:/data'
+    ports:
+      - "80:5000"
+    restart: always  
   dashboard:
     image: hortio/hortio-web-dashboard:vdnh
     build: ./dashboard

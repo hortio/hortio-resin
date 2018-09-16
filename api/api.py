@@ -8,7 +8,7 @@ from collections import OrderedDict
 
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flask_basicauth import BasicAuth
 from lsm import LSM
 from waitress import serve
@@ -130,6 +130,7 @@ def set_output(key, value):
 
 # Server
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 app.config['BASIC_AUTH_USERNAME'] = os.getenv('ADMIN_USERNAME', 'admin')
 app.config['BASIC_AUTH_PASSWORD'] = os.getenv('ADMIN_PASSWORD', 'password')
 
@@ -183,8 +184,7 @@ def cycle_date():
 
 @app.route('/sensor_data')
 def api():
-    # TODO
-    return '{"some":"data"}'
+    return jsonify(get_sensors())
 
 
 if __name__ == "__main__":

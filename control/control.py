@@ -124,23 +124,23 @@ def update_sensors_data():
     ow_sensors = owproxy.dir()
     if len(ow_sensors) > 0:
         temperature = owproxy.read(ow_sensors[0] + 'temperature')
-        db_set("solution-t", '{:.1f}'.format(temperature))
+        db_set("solution-t", '{:.1f}'.format(float(temperature)))
         db_set("solution-t-at", '{}'.format(datetime.now()))
 
     for idx, channel in enumerate([PCA9548A_CH0, PCA9548A_CH1]):
         pca9548a_setup(channel)
 
-        bme280 = BME280.BME280(
+        bme280=BME280.BME280(
             address=0x76,
             t_mode=BME280.BME280_OSAMPLE_8,
             p_mode=BME280.BME280_OSAMPLE_8,
             h_mode=BME280.BME280_OSAMPLE_8)
 
-        degrees = bme280.read_temperature()
+        degrees=bme280.read_temperature()
         db_set("l{}-t".format(idx), '{:.1f}'.format(degrees))
         db_set("l{}-t-at".format(idx), '{}'.format(datetime.now()))
 
-        humidity = bme280.read_humidity()
+        humidity=bme280.read_humidity()
         db_set("l{}-h".format(idx), '{:.0f}'.format(humidity))
         db_set("l{}-h-at".format(idx), '{}'.format(datetime.now()))
 
@@ -166,10 +166,10 @@ def turn_on_lights():
 def setup_scheduler():
     """Setup scheduler"""
 
-    report_period = int(os.getenv('REPORT_PERIOD', '5'))
+    report_period=int(os.getenv('REPORT_PERIOD', '5'))
     schedule.every(report_period).seconds.do(update_sensors_data)
 
-    output_period = int(os.getenv('OUTPUT_PERIOD', '10'))
+    output_period=int(os.getenv('OUTPUT_PERIOD', '10'))
     schedule.every(output_period).seconds.do(set_outputs)
 
     schedule.every().day.at("7:00").do(turn_on_lights)

@@ -15,11 +15,11 @@ RUN pip install pipenv
 COPY Pipfile /app/Pipfile
 COPY Pipfile.lock /app/Pipfile.lock
 
+WORKDIR /app
+
 RUN pipenv install
 
 COPY . /app
-
-WORKDIR /app
 
 # Define default command
 CMD ["pipenv", "run", "python", "control.py"] 

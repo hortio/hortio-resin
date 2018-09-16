@@ -81,8 +81,6 @@ def pca9548a_setup(pca9548a_channel):
     pca9548a = I2C.get_i2c_device(PCA9548A_ADDR)
     pca9548a.writeRaw8(pca9548a_channel)
     time.sleep(0.1)
-    print "PCA9548A I2C channel status:", bin(pca9548a.readRaw8())
-
 
 def db_get(key):
     if key in DEFAULT_STATES:

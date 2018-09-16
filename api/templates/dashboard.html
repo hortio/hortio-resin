@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<title>Панель управления космической гидропонной оранжереей - Hortio</title>
+
+<body>
+  <nav>
+    <h1>Панель управления космической гидропонной оранжереей</h1>
+  </nav>
+  <section class="content">
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    <p>Текущее время: {{ current_time }}</p>
+
+    <h3>Цикл роста</h3>
+    <h5>Teкущий день цикла: {{ date_of_cycle }} </h5>
+    <form method="post" action="/cycle_date/">
+      <label for="cycle-date">Дата начала цикла:</label>
+      <input type="date" name="cycle-date" id="cycle-date" required>
+      <input type="submit" value="Сохранить">
+    </form>
+    <form method="post" action="/cycle_date/">
+      <input type="hidden" name="cycle-date" required>
+      <input type="submit" value="Начать новый цикл с сегодняшнего дня">
+    </form>
+
+    <h3>Ручное управление</h3>
+    <p>При ручном управлении возможна задержка до 10 секунд. Значения выставленные вручную, могут быть перезаписаны на следующий
+      день цикла.</p>
+    {% for name, v in outputs.iteritems(): %}
+    <h4>{{ v["label"] }}</h4>
+    Состояние: {{ v["value"] }}
+    <form method="post">
+      <input type="hidden" name='{{ name }}' value="1">
+      <input type="submit" value="Включить">
+    </form>
+    <form method="post">
+      <input type="hidden" name='{{ name }}' value="0">
+      <input type="submit" value="Выключить">
+    </form>
+    {% endfor %}
+
+    <h3>Сенсоры</h3>
+    <ul>
+      {% for name, v in sensors.iteritems(): %}
+      <li>
+        {{ v["label"] }}: {{ v["value"] }}
+        <small>Обновлено: {{ v["at"] }}</small>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+</body>
+
+</html>

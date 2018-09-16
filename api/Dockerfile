@@ -21,5 +21,9 @@ COPY . /app
 
 WORKDIR /app
 
+ENV FLASK_ENV=production
+
+EXPOSE 5000
+
 # Define default command
-CMD ["pipenv", "run", "python", "control.py"] 
+CMD ["pipenv", "run", "python", "api.py"] 

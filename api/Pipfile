@@ -4,11 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-adafruit-gpio = "*"
-"smbus2" = "*"
-pyownet = "*"
+flask = "*"
 lsm-db = "*"
-schedule = "*"
+flask-basicauth = "*"
+waitress = "*"
 python-dateutil = "*"
 
 [dev-packages]

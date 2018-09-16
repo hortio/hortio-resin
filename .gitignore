@@ -1,3 +1,5 @@
 .vscode
 
 dashboard/node_modules
+control/.env
+api/.env

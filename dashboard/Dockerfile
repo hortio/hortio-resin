@@ -1,8 +1,29 @@
+FROM resin/rpi-raspbian:latest
+LABEL maintainer="Sergei Silnov <po@kumekay.com>"
 
-FROM arm32v7/nginx:mainline
-COPY build/ /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY certs/cert.key.pem /etc/nginx/cert.key.pem
-COPY certs/cert.pem /etc/nginx/cert.pem
-EXPOSE 443
-CMD ["nginx", "-g", "daemon off;"]
+RUN apt-get update 
+RUN apt-get install -y \
+    python \
+    python-dev \
+    python-pip \
+    python-smbus \
+    build-essential \
+    --no-install-recommends
+
+RUN pip install pipenv
+
+COPY Pipfile /app/Pipfile
+COPY Pipfile.lock /app/Pipfile.lock
+
+WORKDIR /app
+
+RUN pipenv install
+
+COPY . /app
+
+ENV FLASK_ENV=production
+
+EXPOSE 8081
+
+# Define default command
+CMD ["pipenv", "run", "python", "dashboard.py"] 

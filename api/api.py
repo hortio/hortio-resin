@@ -143,9 +143,22 @@ def day_of_cycle():
         timestamp = parse(db_get('cycle-start-date'))
     except ValueError:
         timestamp = parse(DEFAULT_STATES["cycle-start-date"])
-    
+
     start_date = timestamp.date()
     return relativedelta(datetime.now().date(), start_date).days
+
+
+def phase_description(day):
+    if day < 4:
+        description = u"Прорастание семян"
+    elif day < 10:
+        description = u"Укоренениe проростков"
+    elif day < 19:
+        description = u"Микрозелень"
+    else:
+        description = u"Вегетационный период"
+
+    return description
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -182,9 +195,17 @@ def cycle_date():
     return redirect('/')
 
 
-@app.route('/sensor_data')
+@app.route('/state.json')
 def api():
-    return jsonify(get_sensors())
+    day = day_of_cycle()
+    state = {
+        "sensors": get_sensors(),
+        "cycle": {
+            "day": day,
+            "phase_description": phase_description(day)
+        }
+    }
+    return jsonify(state)
 
 
 if __name__ == "__main__":

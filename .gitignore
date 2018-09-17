@@ -1,5 +1,5 @@
 .vscode
 
-dashboard/node_modules
+dashboard/.env
 control/.env
 api/.env

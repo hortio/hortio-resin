@@ -47,17 +47,17 @@
         <p class="panel-heading">
           <span class="title is-4">Показания сенсоров</span>
         </p>
-        <div class="panel-block is-size-6">
+        <div class="panel-block is-size-7 ">
           <b> Верхняя полка</b>&nbsp;
           температура:&nbsp;<b>{{ data["sensors"]["l0-t"]["value"] }}°C</b>&nbsp;
           влажность воздуха:&nbsp;<b>{{ data["sensors"]["l0-h"]["value"] }}%</b>
         </div>
-        <div class="panel-block is-size-6">
+        <div class="panel-block is-size-7 ">
           <b> Нижняя полка</b>&nbsp;
           температура:&nbsp;<b>{{ data["sensors"]["l1-t"]["value"] }}°C</b>&nbsp;
           влажность воздуха:&nbsp;<b>{{ data["sensors"]["l1-h"]["value"] }}%</b>
         </div>
-        <div class="panel-block is-size-6">
+        <div class="panel-block is-size-7 ">
             <b>Питательный раствор</b>&nbsp;
             pH:&nbsp;<b> 6,7</b>&nbsp; 
             электропроводность:&nbsp;<b>0,6мС/см</b>
@@ -66,13 +66,13 @@
     </div>
     <div class="column has-text-centered">
       <div class="title is-4">Попробуйте дополненную реальность</div>
-      <div class="is-size-5"> Отсканируйте QR-код или введите в браузере своего телефона</div>
-      <div class="is-size-4">https://vdnh.hort.io</div>
-      <div class="is-size-5">Откройте верхний ящик под установкой</div>
-      <div class="is-size-5">Наведите камеру телефона на черно-белые маркеры в ящике</div>
+      <div class="is-size-6"> Отсканируйте QR-код или введите в браузере своего телефона</div>
+      <div class="is-size-5">https://vdnh.hort.io</div>
+      <div class="is-size-6">Откройте верхний ящик под установкой</div>
+      <div class="is-size-6">Наведите камеру телефона на черно-белые маркеры в ящике</div>
       <img src="{{ url_for('static', filename='qr.jpeg') }}" alt="">
-      <div class="is-size-5">Для экскурсионных групп: воспользуйтесь очками дополненной реальности</div>
-      <div class="is-size-6 has-text-grey-light	">Поддерживаются только утройства с операционной системой Android 5+</div>
+      <div class="is-size-6">Для экскурсионных групп: воспользуйтесь очками дополненной реальности</div>
+      <div class="is-size-7 has-text-grey-light	">Поддерживаются только утройства с операционной системой Android 5+</div>
     </div>
   </div>
 </body>

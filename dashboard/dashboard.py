@@ -59,7 +59,7 @@ def dashboard():
     global data
 
     try:
-        url = os.getenv("API_URL", "http://api/state.json")
+        url = os.getenv("API_URL", "http://192.168.0.101/state.json")
         r = requests.get(url)
         data = r.json()
     except requests.exceptions.ConnectionError:

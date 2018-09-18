@@ -9,6 +9,7 @@ lsm-db = "*"
 flask-basicauth = "*"
 waitress = "*"
 python-dateutil = "*"
+flask-cors = "*"
 
 [dev-packages]
 

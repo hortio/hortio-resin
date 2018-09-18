@@ -10,6 +10,7 @@ from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
 from flask import Flask, render_template, request, redirect, jsonify
 from flask_basicauth import BasicAuth
+from flask_cors import CORS
 from lsm import LSM
 from waitress import serve
 
@@ -133,6 +134,7 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.config['BASIC_AUTH_USERNAME'] = os.getenv('ADMIN_USERNAME', 'admin')
 app.config['BASIC_AUTH_PASSWORD'] = os.getenv('ADMIN_PASSWORD', 'password')
+CORS(app)
 
 basic_auth = BasicAuth(app)
 

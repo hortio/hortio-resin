@@ -2,23 +2,45 @@
 <html>
 <script src="vendor/aframe.min.js"></script>
 <script src="vendor/aframe-ar.js"></script>
-<script src="index.js"></script>
+<script>
+  function reloadPage() {
+    location.reload();
+    console.log("reload page");
+  }
+  setInterval(reloadPage, 600000);
+
+  // fetch('https://0df65f4d56c4166b4ebc9fa4d6f7ce67.resindevice.io/state.json', { mode: "no-cors" })
+  //   .then(function (response) {
+  //     return response.json();
+  //   })
+  //   .then(function (myJson) {
+  //     console.log(myJson);
+  //   });
+</script>
 
 <body style='margin : 0px; overflow: hidden;'>
   <a-scene arjs='debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3_PARITY65;'>
-    <a-marker type='barcode' value='1'>
-      <a-plane position="0 0 -1.5" rotation="-90 0 0" width="10" height="2" color="#555">
-        <a-text width="10" position="0 0 0.4" wrap-count="14" align="center" value="T: 23.1C H: 60%">
-        </a-text>
+    <!-- Assets  -->
+    <a-assets>
+      <img id="spectrum-l0" src="images/spectrum-l0.png">
+      <img id="spectrum-l1" src="images/spectrum-l1.png">
+      <img id="top" src="images/top.png">
+      <img id="bottom" src="images/bottom.png">
+    </a-assets>
 
-      </a-plane>
+    <!-- Level 0, Top -->
+    <a-marker type='barcode' value='1'>
+      <a-image position="5 0 -3" rotation="-90 0 0" width="14" height="7" src="#top">
+      </a-image>
+      <!-- <a-plane position="0 0 -1.5" rotation="-90 0 0" width="10" height="4" color="#888">
+        <a-text width="10" wrap-count="20" align="center" position="0 -1 0.4"  value="T: 23.1C H: 60%"></a-text>
+        <a-text width="10" wrap-count="20" align="center" position="0 1 0.4"  value="pH: 6.7 ec: 0.6mS/cm"></a-text>
+      </a-plane> -->
     </a-marker>
 
     <a-marker type='barcode' value='5'>
-      <a-plane position="0 0 -1.5" rotation="-90 0 0" width="10" height="2" color="#555">
-        <a-text width="9.5" position="0 0 0.4" wrap-count="14" align="center" value="T: 23.5C H: 63%">
-        </a-text>
-      </a-plane>
+      <a-image position="-3.8 0 -3" rotation="-90 0 0" width="14" height="7" src="#bottom">
+      </a-image>
     </a-marker>
   </a-scene>
 </body>

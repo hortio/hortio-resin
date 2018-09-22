@@ -1,6 +1,7 @@
 version: '2'
 volumes:
   control-data:
+  gateway-data:
 services:
   control:
     image: hortio/hortio-control-rpi:vdnh
@@ -41,3 +42,9 @@ services:
       - "/dev/i2c-1:/dev/i2c-1"
     restart: always  
     privileged: true
+  gateway:
+    image: insideout/rpi-insideout
+    build: ./gateway
+    volumes: 
+      - 'gateway-data:/root/.ssh'
+    restart: always

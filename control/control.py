@@ -14,6 +14,7 @@ from dateutil.relativedelta import relativedelta
 from lsm import LSM
 import pyownet
 
+from lib.smsc_api import SMSC
 import lib.Adafruit_BME280 as BME280
 
 PCA9548A_ADDR = 0x70
@@ -64,6 +65,13 @@ OUTPUTS = {
     }
 }
 
+SMS_NOTIFICATIONS = dict([
+    (10, "10д. Долейте воду и удобрения: Micro-12.5мл, Grow-12.5мл, Bloom-12.5мл"),
+    (20, "20д. Долейте воду и удобрения: Micro-25мл, Grow-25мл, Bloom-25мл"),
+    (30, "30д. Долейте воду и удобрения: Micro-25мл, Grow-25мл, Bloom-25мл"),
+    (45, "45д. Начните новый цикл. Детали: http://admin.vhnh.hort.io/today")
+])
+
 # Setup IO
 mcp = MCP.MCP23008()
 
@@ -81,6 +89,7 @@ def pca9548a_setup(pca9548a_channel):
     pca9548a = I2C.get_i2c_device(PCA9548A_ADDR)
     pca9548a.writeRaw8(pca9548a_channel)
     time.sleep(0.1)
+
 
 def db_get(key):
     if key in DEFAULT_STATES:
@@ -128,24 +137,29 @@ def update_sensors_data():
     for idx, channel in enumerate([PCA9548A_CH0, PCA9548A_CH1]):
         pca9548a_setup(channel)
 
-        bme280=BME280.BME280(
+        bme280 = BME280.BME280(
             address=0x76,
             t_mode=BME280.BME280_OSAMPLE_8,
             p_mode=BME280.BME280_OSAMPLE_8,
             h_mode=BME280.BME280_OSAMPLE_8)
 
-        degrees=bme280.read_temperature()
+        degrees = bme280.read_temperature()
         db_set("l{}-t".format(idx), '{:.1f}'.format(degrees))
         db_set("l{}-t-at".format(idx), '{}'.format(datetime.now()))
 
-        humidity=bme280.read_humidity()
+        humidity = bme280.read_humidity()
         db_set("l{}-h".format(idx), '{:.0f}'.format(humidity))
         db_set("l{}-h-at".format(idx), '{}'.format(datetime.now()))
 
 
 def notify_users():
     """Send SMS notifications, if necessary"""
-
+    today = day_of_cycle()
+    if today in SMS_NOTIFICATIONS:
+        smsc = SMSC()
+        phone_numbers = filter(None, os.getenv('SMS_NUMBERS','').split(','))
+        for number in phone_numbers:
+            smsc.send_sms(number, SMS_NOTIFICATIONS[today])
 
 def turn_off_lights():
     """Turn off lights if necessary"""
@@ -164,17 +178,16 @@ def turn_on_lights():
 def setup_scheduler():
     """Setup scheduler"""
 
-    report_period=int(os.getenv('REPORT_PERIOD', '5'))
+    report_period = int(os.getenv('REPORT_PERIOD', '5'))
     schedule.every(report_period).seconds.do(update_sensors_data)
 
-    output_period=int(os.getenv('OUTPUT_PERIOD', '10'))
+    output_period = int(os.getenv('OUTPUT_PERIOD', '10'))
     schedule.every(output_period).seconds.do(set_outputs)
 
     schedule.every().day.at("7:00").do(turn_on_lights)
     schedule.every().day.at("23:00").do(turn_off_lights)
 
-    schedule.every().day.at("9:00").do(notify_users)
-
+    schedule.every().day.at(os.getenv("SMS_NOTIFICATION_TIME", "9:30")).do(notify_users)
 
 if __name__ == "__main__":
     setup_scheduler()

@@ -180,7 +180,7 @@ def dashboard():
     return render_template('dashboard.html',
                            outputs=get_outputs(),
                            sensors=get_sensors(),
-                           date_of_cycle=day_of_cycle(),
+                           day_of_cycle=day_of_cycle(),
                            current_time=datetime.now())
 
 
@@ -196,6 +196,12 @@ def cycle_date():
 
     return redirect('/')
 
+@app.route('/today')
+def today():
+    return render_template('today.html',
+                           sensors=get_sensors(),
+                           day_of_cycle=day_of_cycle(),
+                           current_time=datetime.now())
 
 @app.route('/state.json')
 def api():

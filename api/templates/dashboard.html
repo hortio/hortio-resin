@@ -10,10 +10,11 @@
     {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
     {% endfor %}
-    <p>Текущее время: {{ current_time }}</p>
+    
+    {% include('day_description.html') %}
 
     <h3>Цикл роста</h3>
-    <h5>Teкущий день цикла: {{ date_of_cycle }} </h5>
+    <h5>Teкущий день цикла: {{ day_of_cycle }} </h5>
     <form method="post" action="/cycle_date/">
       <label for="cycle-date">Дата начала цикла:</label>
       <input type="date" name="cycle-date" id="cycle-date" required>
@@ -38,16 +39,6 @@
       <input type="submit" value="Выключить">
     </form>
     {% endfor %}
-
-    <h3>Сенсоры</h3>
-    <ul>
-      {% for name, v in sensors.iteritems(): %}
-      <li>
-        {{ v["label"] }}: {{ v["value"] }}
-        <small>Обновлено: {{ v["at"] }}</small>
-      </li>
-      {% endfor %}
-    </ul>
   </section>
 </body>
 

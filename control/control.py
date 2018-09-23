@@ -184,8 +184,8 @@ def setup_scheduler():
     output_period = int(os.getenv('OUTPUT_PERIOD', '10'))
     schedule.every(output_period).seconds.do(set_outputs)
 
-    schedule.every().day.at("7:00").do(turn_on_lights)
-    schedule.every().day.at("23:00").do(turn_off_lights)
+    schedule.every().day.at(os.getenv("LIGHT_ON_TIME", "5:00")).do(turn_on_lights)
+    schedule.every().day.at(os.getenv("LIGHT_OFF_TIME", "21:00")).do(turn_off_lights)
 
     schedule.every().day.at(os.getenv("SMS_NOTIFICATION_TIME", "9:30")).do(notify_users)
 

@@ -13,12 +13,11 @@
 
     h1 {
       text-align: center;
-      font-size: 3em;
     }
   </style>
 
   <script>
-    function reloadPage(){
+    function reloadPage() {
       location.reload();
       console.log("reload page");
     }
@@ -27,51 +26,73 @@
 </head>
 
 <body>
-  <h1 class="title is-1">Космическая гидропонная оранжерея</h1>
+  <h1 class="title is-2">Космическая гидропонная оранжерея</h1>
   <div class="columns">
-    <div class="column">
+    <div class="column is-5">
       <div class="panel">
         <p class="panel-heading">
           <span class="title is-4">Фаза развития</span>
         </p>
         <div class="panel-block">
-          {{ data["cycle"]["phase_description"] }}
-        </div>
-        <div class="panel-block">
-          Teкущий день цикла:&nbsp; 
-          <b> {{ data["cycle"]["day"] }}</b>
+          {{ data["cycle"]["phase_description"] }}, {{ data["cycle"]["day"] }} день цикла
         </div>
       </div>
 
-      <div class="panel">
-        <p class="panel-heading">
-          <span class="title is-4">Показания сенсоров</span>
-        </p>
-        <div class="panel-block is-size-7 ">
-          <b> Верхняя полка</b>&nbsp;
-          температура:&nbsp;<b>{{ data["sensors"]["l0-t"]["value"] }}°C</b>&nbsp;
-          влажность воздуха:&nbsp;<b>{{ data["sensors"]["l0-h"]["value"] }}%</b>
-        </div>
-        <div class="panel-block is-size-7 ">
-          <b> Нижняя полка</b>&nbsp;
-          температура:&nbsp;<b>{{ data["sensors"]["l1-t"]["value"] }}°C</b>&nbsp;
-          влажность воздуха:&nbsp;<b>{{ data["sensors"]["l1-h"]["value"] }}%</b>
-        </div>
-        <div class="panel-block is-size-7 ">
-            <b>Питательный раствор</b>&nbsp;
-            pH:&nbsp;<b> 6,7</b>&nbsp; 
-            электропроводность:&nbsp;<b>0,6мС/см</b>
-          </div>
-      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Температура</th>
+            <th>Влажность</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Верхняя полка</th>
+            <td>{{ data["sensors"]["l0-t"]["value"] }}°C</td>
+            <td>{{ data["sensors"]["l0-h"]["value"] }}%</td>
+          </tr>
+          <tr>
+            <th>Нижняя полка</th>
+            <td>{{ data["sensors"]["l1-t"]["value"] }}°C</td>
+            <td>{{ data["sensors"]["l1-h"]["value"] }}%</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Параметры раствора</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>pH</th>
+            <td>{{ data["sensors"]["solution-ph"]["value"] }}</td>
+          </tr>
+          <tr>
+            <th>Электропроводность</th>
+            <td>{{ data["sensors"]["solution-ec"]["value"] }}мС/см</td>
+          </tr>
+          <tr>
+            <th>Температура</th>
+            <td>{{ data["sensors"]["solution-t"]["value"] }}°C</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="column has-text-centered">
-      <div class="title is-4">Попробуйте дополненную реальность</div>
-      <div class="is-size-6"> Отсканируйте QR-код или введите в браузере своего телефона</div>
+    <div class="column is-7 has-text-centered">
+      <div class="title is-5">Попробуйте дополненную реальность</div>
+      <div class="is-size-6"> Отсканируйте QR-код или введите aдрес в браузере своего мобильного телефона</div>
       <div class="is-size-5">https://vdnh.hort.io</div>
-      <div class="is-size-6">Откройте верхний ящик под установкой</div>
-      <div class="is-size-6">Наведите камеру телефона на черно-белые маркеры в ящике</div>
-      <img src="{{ url_for('static', filename='qr.jpeg') }}" alt="">
-      <div class="is-size-6">Для экскурсионных групп: воспользуйтесь очками дополненной реальности</div>
+      <div class="is-size-6">Затем откройте верхний ящик под&nbsp;установкой и&nbsp;наведите камеру телефона
+        на&nbsp;черно-белые
+        маркеры в&nbsp;ящике</div>
+      <img src="{{ url_for('static', filename='qr.jpeg') }}" alt="" style="width: 260px; height: 260px;">
+      <div class="is-size-7">Для экскурсионных групп: воспользуйтесь очками дополненной реальности</div>
       <div class="is-size-7 has-text-grey-light	">Поддерживаются только утройства с операционной системой Android 5+</div>
     </div>
   </div>

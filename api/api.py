@@ -23,8 +23,8 @@ DEFAULT_STATES = {
     "l1-t": 0,
     "l1-h": 0,
     "solution-t": 0,
-    "solution-ph": 0,
-    "solution-ec": 0,
+    "solution-ph": 5.6,
+    "solution-ec": 1.1,
     # Outputs
     "l0-light": 0,
     "l1-light": 0,

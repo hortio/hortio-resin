@@ -134,6 +134,11 @@ def update_sensors_data():
         db_set("solution-t", '{:.1f}'.format(float(temperature)))
         db_set("solution-t-at", '{}'.format(datetime.now()))
 
+        db_set("solution-ph", '{:.1f}'.format(float(5.6)))
+        # db_set("solution-ph-at", '{}'.format(datetime.now()))
+        db_set("solution-ec", '{:.1f}'.format(float(1.2)))
+        # db_set("solution-ec-at", '{}'.format(datetime.now()))
+
     for idx, channel in enumerate([PCA9548A_CH0, PCA9548A_CH1]):
         pca9548a_setup(channel)
 

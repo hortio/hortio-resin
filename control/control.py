@@ -10,7 +10,6 @@ import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.I2C as I2C
 import Adafruit_GPIO.MCP230xx as MCP
 from dateutil.parser import parse
-from dateutil.relativedelta import relativedelta
 from lsm import LSM
 import pyownet
 
@@ -120,8 +119,12 @@ def set_outputs():
 
 def day_of_cycle():
     """Return day of cycle (0 - 45)"""
-    start_date = parse(db_get('cycle-start-date')).date()
-    return relativedelta(datetime.now().date(), start_date).days
+    try:
+        timestamp = parse(db_get('cycle-start-date'))
+    except ValueError:
+        timestamp = parse(DEFAULT_STATES["cycle-start-date"])
+
+    return (datetime.now() - timestamp).days
 
 
 def update_sensors_data():

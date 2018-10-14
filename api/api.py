@@ -146,8 +146,7 @@ def day_of_cycle():
     except ValueError:
         timestamp = parse(DEFAULT_STATES["cycle-start-date"])
 
-    start_date = timestamp.date()
-    return relativedelta(datetime.now().date(), start_date).days
+    return (datetime.now() - timestamp).days
 
 
 def phase_description(day):

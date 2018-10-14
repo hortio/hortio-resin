@@ -1,69 +1,104 @@
-<!doctype HTML>
-<html>
-<script src="vendor/aframe.min.js"></script>
-<script src="vendor/aframe-ar.js"></script>
-<script>
-  const apiUrl = 'http://192.168.0.101/state.json'
+<!doctype html>
+<html lang="ru">
 
-  // Public API url: 'https://0df65f4d56c4166b4ebc9fa4d6f7ce67.resindevice.io/state.json';
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  document.addEventListener("DOMContentLoaded", function (event) {
-    const updateData = () => {
-      fetch(apiUrl)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (data) {
-          // Day of cycle
-          const dayOfCycle = data.cycle.day;
-          const daysOfCycle = document.querySelectorAll(".day-of-cycle");
-          daysOfCycle.forEach((d) => { d.setAttribute("value", dayOfCycle) });
 
-          // Phase description
-          const phaseDescriptions = document.querySelectorAll(".phase-description");
-          let phaseImageId = "#p4";
+  <script src="vendor/aframe.min.js"></script>
+  <script src="vendor/aframe-ar.js"></script>
+  <script>
+    const apiUrl = 'https://0df65f4d56c4166b4ebc9fa4d6f7ce67.resindevice.io/state.json';
 
-          if (dayOfCycle < 4) {
-            phaseImageId = "#p1"
-          } else if (dayOfCycle < 10) {
-            phaseImageId = "#p2"
-          } else if (dayOfCycle < 19) {
-            phaseImageId = "#p3"
-          } else {
-            phaseImageId = "#p4"
-          }
+    // navigator.userAgent
+    // Public API url: 'https://0df65f4d56c4166b4ebc9fa4d6f7ce67.resindevice.io/state.json';
+    // Local API url: 'http://192.168.0.101/state.json';
 
-          phaseDescriptions.forEach((phaseDescription) => { phaseDescription.setAttribute("src", phaseImageId) });
+    document.addEventListener("DOMContentLoaded", function (event) {
+      const notification = document.querySelector("#notification");
 
-          // Sensors
-          const sensors = {
-            "l1-h": "%",
-            "l1-t": "°C",
-            "l0-h": "%",
-            "l0-t": "°C",
-            "solution-ec": "mS/cm",
-            "solution-ph": ""
-          }
+      // Lock orientation
+      const showNotification = () => {
+        if (window.innerHeight > window.innerWidth) {
+          notification.setAttribute("class", "")
+        } else {
+          notification.setAttribute("class", "hidden")
+        }
+      }
 
-          for (var sensor in sensors) {
-            if (sensors.hasOwnProperty(sensor)) {
-              let unit = sensors[sensor];
-              console.log(unit);
-              const sensorElements = document.querySelectorAll("." + sensor);
-              sensorElements.forEach((s) => { s.setAttribute("value", data.sensors[sensor].value + unit) });
+      window.addEventListener("resize", showNotification);
+
+      screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
+      screen.lockOrientationUniversal("landscape")
+
+      const updateData = () => {
+        fetch(apiUrl)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            // Day of cycle
+            const dayOfCycle = data.cycle.day;
+            const daysOfCycle = document.querySelectorAll(".day-of-cycle");
+            daysOfCycle.forEach((d) => { d.setAttribute("value", dayOfCycle) });
+
+            // Phase description
+            const phaseDescriptions = document.querySelectorAll(".phase-description");
+            let phaseImageId = "#p4";
+
+            if (dayOfCycle < 4) {
+              phaseImageId = "#p1"
+            } else if (dayOfCycle < 10) {
+              phaseImageId = "#p2"
+            } else if (dayOfCycle < 19) {
+              phaseImageId = "#p3"
+            } else {
+              phaseImageId = "#p4"
             }
-          }
-        });
+
+            phaseDescriptions.forEach((phaseDescription) => { phaseDescription.setAttribute("src", phaseImageId) });
+
+            // Sensors
+            const sensors = {
+              "l1-h": "%",
+              "l1-t": "°C",
+              "l0-h": "%",
+              "l0-t": "°C",
+              "solution-ec": "mS/cm",
+              "solution-ph": ""
+            }
+
+            for (var sensor in sensors) {
+              if (sensors.hasOwnProperty(sensor)) {
+                let unit = sensors[sensor];
+                console.log(unit);
+                const sensorElements = document.querySelectorAll("." + sensor);
+                sensorElements.forEach((s) => { s.setAttribute("value", data.sensors[sensor].value + unit) });
+              }
+            }
+          });
+      }
+
+      updateData();
+
+      setInterval(updateData, 600000);
+    });
+
+  </script>
+  <style>
+    .hidden {
+      display: none;
     }
-
-    updateData();
-
-    setInterval(updateData, 600000);
-  });
-
-</script>
+  </style>
+</head>
 
 <body style='margin : 0px; overflow: hidden;'>
+  <div style='position: fixed; top: 0px; left: 0px; height: 100%; width:100%; text-align: center; z-index: 1; background: #fffd;'
+    class="hidden" id="notification">
+    <h1>Пожалуйста, разверните телефон горизонтально!</h1>
+  </div>
+
   <a-scene arjs='debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3_PARITY65;' vr-mode-ui="enabled: false">
     <!-- Assets  -->
     <a-assets>

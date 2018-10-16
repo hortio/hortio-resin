@@ -4,17 +4,20 @@
 import os
 import time
 from datetime import datetime
-import schedule
+
 
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.I2C as I2C
 import Adafruit_GPIO.MCP230xx as MCP
+import Adafruit_PureIO.smbus
+import pyownet
+import schedule
 from dateutil.parser import parse
 from lsm import LSM
-import pyownet
 
-from lib.smsc_api import SMSC
 import lib.Adafruit_BME280 as BME280
+import lib.MCP342x as MCP342x
+from lib.smsc_api import SMSC
 
 PCA9548A_ADDR = 0x70
 PCA9548A_CH0 = 0b00000001
@@ -133,14 +136,37 @@ def update_sensors_data():
 
     ow_sensors = owproxy.dir()
     if len(ow_sensors) > 0:
-        temperature = owproxy.read(ow_sensors[0] + 'temperature')
-        db_set("solution-t", '{:.1f}'.format(float(temperature)))
+        temperature = float(owproxy.read(ow_sensors[0] + 'temperature'))
+        db_set("solution-t", '{:.1f}'.format(temperature))
         db_set("solution-t-at", '{}'.format(datetime.now()))
 
-        db_set("solution-ph", '{:.1f}'.format(float(5.6)))
-        # db_set("solution-ph-at", '{}'.format(datetime.now()))
-        db_set("solution-ec", '{:.1f}'.format(float(1.2)))
-        # db_set("solution-ec-at", '{}'.format(datetime.now()))
+     
+        # Setup pH and EC
+        bus =  Adafruit_PureIO.smbus.SMBus(I2C.get_default_bus())
+        ec_adc = MCP342x.MCP342x(bus, 0x68, channel=0, resolution=18)
+        ph_adc = MCP342x.MCP342x(bus, 0x68, channel=1, resolution=18)
+
+        # EC
+        ec_voltage = ec_adc.convert_and_read()
+        RES2 = 820.0
+        ECREF = 200.0
+        raw_ec = 1000 * ec_voltage / RES2 / ECREF
+        # temperature compensation
+        ec = raw_ec / (1.0+0.0185*(temperature-25.0))
+
+        if ec > 0.1 :
+            db_set("solution-ec", '{:.1f}'.format(float(ec)))
+            db_set("solution-ec-at", '{}'.format(datetime.now()))
+
+        # pH
+
+        ph_voltage = ph_adc.convert_and_read()
+        # TODO: should be calibrated
+        ph = -5.70 * ph_voltage + 10
+
+        if ph > 2 and ph < 10:
+            db_set("solution-ph", '{:.1f}'.format(float(ph)))
+            db_set("solution-ph-at", '{}'.format(datetime.now()))
 
     for idx, channel in enumerate([PCA9548A_CH0, PCA9548A_CH1]):
         pca9548a_setup(channel)
@@ -165,9 +191,10 @@ def notify_users():
     today = day_of_cycle()
     if today in SMS_NOTIFICATIONS:
         smsc = SMSC()
-        phone_numbers = filter(None, os.getenv('SMS_NUMBERS','').split(','))
+        phone_numbers = filter(None, os.getenv('SMS_NUMBERS', '').split(','))
         for number in phone_numbers:
             smsc.send_sms(number, SMS_NOTIFICATIONS[today])
+
 
 def turn_off_lights():
     """Turn off lights if necessary"""
@@ -196,6 +223,7 @@ def setup_scheduler():
     schedule.every().day.at(os.getenv("LIGHT_OFF_TIME", "21:00")).do(turn_off_lights)
 
     schedule.every().day.at(os.getenv("SMS_NOTIFICATION_TIME", "9:30")).do(notify_users)
+
 
 if __name__ == "__main__":
     setup_scheduler()

@@ -30,7 +30,7 @@
       window.addEventListener("resize", showNotification);
 
       screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
-      screen.lockOrientationUniversal("landscape")
+      if (typeof(screen.lockOrientationUniversal) === 'function') {screen.lockOrientationUniversal("landscape")}
 
       const updateData = () => {
         fetch(apiUrl)
@@ -72,7 +72,6 @@
             for (var sensor in sensors) {
               if (sensors.hasOwnProperty(sensor)) {
                 let unit = sensors[sensor];
-                console.log(unit);
                 const sensorElements = document.querySelectorAll("." + sensor);
                 sensorElements.forEach((s) => { s.setAttribute("value", data.sensors[sensor].value + unit) });
               }

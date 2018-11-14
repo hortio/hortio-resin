@@ -9,7 +9,10 @@
   <script src="vendor/aframe.min.js"></script>
   <script src="vendor/aframe-ar.js"></script>
   <script>
-    const apiUrl = 'https://0df65f4d56c4166b4ebc9fa4d6f7ce67.resindevice.io/state.json';
+    // Use local URL for EPSON glasses and global everywhere else
+    const apiUrl =
+      navigator.userAgent.includes("EMBT3C") ? 'http://192.168.0.101/state.json' :
+      'https://0df65f4d56c4166b4ebc9fa4d6f7ce67.resindevice.io/state.json';
 
     // navigator.userAgent
     // Public API url: 'https://0df65f4d56c4166b4ebc9fa4d6f7ce67.resindevice.io/state.json';
@@ -30,7 +33,9 @@
       window.addEventListener("resize", showNotification);
 
       screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
-      if (typeof(screen.lockOrientationUniversal) === 'function') {screen.lockOrientationUniversal("landscape")}
+      if (typeof (screen.lockOrientationUniversal) === 'function') {
+        screen.lockOrientationUniversal("landscape")
+      }
 
       const updateData = () => {
         fetch(apiUrl)
@@ -41,7 +46,9 @@
             // Day of cycle
             const dayOfCycle = data.cycle.day;
             const daysOfCycle = document.querySelectorAll(".day-of-cycle");
-            daysOfCycle.forEach((d) => { d.setAttribute("value", dayOfCycle) });
+            daysOfCycle.forEach((d) => {
+              d.setAttribute("value", dayOfCycle)
+            });
 
             // Phase description
             const phaseDescriptions = document.querySelectorAll(".phase-description");
@@ -57,7 +64,9 @@
               phaseImageId = "#p4"
             }
 
-            phaseDescriptions.forEach((phaseDescription) => { phaseDescription.setAttribute("src", phaseImageId) });
+            phaseDescriptions.forEach((phaseDescription) => {
+              phaseDescription.setAttribute("src", phaseImageId)
+            });
 
             // Sensors
             const sensors = {
@@ -73,7 +82,9 @@
               if (sensors.hasOwnProperty(sensor)) {
                 let unit = sensors[sensor];
                 const sensorElements = document.querySelectorAll("." + sensor);
-                sensorElements.forEach((s) => { s.setAttribute("value", data.sensors[sensor].value + unit) });
+                sensorElements.forEach((s) => {
+                  s.setAttribute("value", data.sensors[sensor].value + unit)
+                });
               }
             }
           });

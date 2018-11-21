@@ -193,7 +193,13 @@ def cycle_date():
 
     db_set("cycle-start-date", date)
 
+    # Update light
+    light_state = 1 if day_of_cycle() > 3 else 0
+    db_set("l0-light", light_state)
+    db_set("l1-light", light_state)
+
     return redirect('/')
+
 
 @app.route('/today')
 def today():
@@ -201,6 +207,7 @@ def today():
                            sensors=get_sensors(),
                            day_of_cycle=day_of_cycle(),
                            current_time=datetime.now())
+
 
 @app.route('/state.json')
 def api():

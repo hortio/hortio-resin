@@ -154,7 +154,7 @@ def update_sensors_data():
         # temperature compensation
         ec = raw_ec / (1.0+0.0185*(temperature-25.0))
 
-        if ec > 0.1 :
+        if ec > 0.1:
             db_set("solution-ec", '{:.1f}'.format(float(ec)))
             db_set("solution-ec-at", '{}'.format(datetime.now()))
 

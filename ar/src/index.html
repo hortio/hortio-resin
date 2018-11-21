@@ -7,10 +7,14 @@
 
   <script src="vendor/aframe.min.js"></script>
   <script src="vendor/aframe-ar.js"></script>
+  <script src="vendor/sentry.min.js"></script>
   <script>
+    // Send debug data
+    Sentry.init({ dsn: 'https://0d3de80e90c249369366fd793bbd9213@sentry.io/1327434' });
+
     // Use local URL for EPSON glasses and global everywhere else
     const apiUrl =
-      navigator.userAgent.includes("EMBT3C") ? 'http://192.168.0.101/state.json' :
+      navigator.userAgent.includes("EMBT3C") ? 'https://192.168.0.101/state.json' :
       'https://0df65f4d56c4166b4ebc9fa4d6f7ce67.resindevice.io/state.json';
 
     // navigator.userAgent

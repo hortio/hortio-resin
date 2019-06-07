@@ -1,101 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <title>Космическая гидропонная оранжерея - Hortio</title>
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='bulma.min.css')
 
-<head>
-  <title>Космическая гидропонная оранжерея - Hortio</title>
-  <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='bulma.min.css') }}">
-  <style>
-    body {
-      margin: 1em;
-      padding: 0;
-      font-family: sans-serif;
-    }
+    }}">
+    <style>
+      body {
+        margin: 2em;
+        padding: 0;
+        font-family: sans-serif;
+      }
 
-    h1 {
-      text-align: center;
-    }
-  </style>
+      p,
+      ol {
+        margin-bottom: 1em;
+      }
 
-  <script>
-    function reloadPage() {
-      location.reload();
-      console.log("reload page");
-    }
-    setInterval(reloadPage, 600000);
-  </script>
-</head>
+      li {
+        margin-bottom: .5em;
+      }
 
-<body>
-  <h1 class="title is-2">Космическая гидропонная оранжерея</h1>
-  <div class="columns">
-    <div class="column is-5">
-      <div class="panel">
-        <p class="panel-heading">
-          <span class="title is-4">Фаза развития</span>
-        </p>
-        <div class="panel-block">
-          {{ data["cycle"]["phase_description"] }}, {{ data["cycle"]["day"] }} день цикла
+      .about {
+        margin-left: .5em;
+      }
+    </style>
+
+    <script>
+      function reloadPage() {
+        location.reload();
+        console.log("reload page");
+      }
+      setInterval(reloadPage, 600000);
+    </script>
+  </head>
+
+  <body>
+    <div class="columns">
+      <div class="column is-5">
+        <div class="panel">
+          <div class="panel-heading">
+            <span class="title is-4">Фаза развития</span>
+          </div>
+          <div class="panel-block">
+            {{ data["cycle"]["phase_description"] }},
+            {{ data["cycle"]["day"] }} день цикла
+          </div>
         </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Температура</th>
+              <th>Влажность</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Верхняя полка</th>
+              <td>{{ data["sensors"]["l0-t"]["value"] }}°C</td>
+              <td>{{ data["sensors"]["l0-h"]["value"] }}%</td>
+            </tr>
+            <tr>
+              <th>Нижняя полка</th>
+              <td>{{ data["sensors"]["l1-t"]["value"] }}°C</td>
+              <td>{{ data["sensors"]["l1-h"]["value"] }}%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Параметры раствора</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>pH</th>
+              <td>{{ data["sensors"]["solution-ph"]["value"] }}</td>
+            </tr>
+            <tr>
+              <th>Электропроводность</th>
+              <td>{{ data["sensors"]["solution-ec"]["value"] }}мС/см</td>
+            </tr>
+            <tr>
+              <th>Температура</th>
+              <td>{{ data["sensors"]["solution-t"]["value"] }}°C</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+      <div class="column is-7 about">
+            <h2 class="title is-4">Космическая гидропонная оранжерея</h2>
+            <p>
+              Мы привыкли, что растениям для полноценного развития необходима
+              земля и солнечный свет. На самом деле это не так.
+            </p>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Температура</th>
-            <th>Влажность</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Верхняя полка</th>
-            <td>{{ data["sensors"]["l0-t"]["value"] }}°C</td>
-            <td>{{ data["sensors"]["l0-h"]["value"] }}%</td>
-          </tr>
-          <tr>
-            <th>Нижняя полка</th>
-            <td>{{ data["sensors"]["l1-t"]["value"] }}°C</td>
-            <td>{{ data["sensors"]["l1-h"]["value"] }}%</td>
-          </tr>
-        </tbody>
-      </table>
+            <ol>
+              <li>
+                Саму землю растения не потребляют. Им нужны только
+                неорганические вещества, растворенные в земной влаге. Здесь их роль
+                выполняет питательный раствор, обогащенный кислородом.
+              </li>
+              <li>
+                Привычный солнечный свет заменяют светодиоды со специально
+                подобранным спектром. Такое освещение позволяет добиться лучшего
+                вкуса и быстрого роста, а главное такую ферму можно установить где угодно.
+              </li>
+              <li>
+                За пределами Земли гидропонная установка сможет улавливать
+                углекислый газ выдыхаемый человеком, из которого растения строят свои тела, тем самым помогая очищать воздух.
+              </li>
+            </ol>
 
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Параметры раствора</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>pH</th>
-            <td>{{ data["sensors"]["solution-ph"]["value"] }}</td>
-          </tr>
-          <tr>
-            <th>Электропроводность</th>
-            <td>{{ data["sensors"]["solution-ec"]["value"] }}мС/см</td>
-          </tr>
-          <tr>
-            <th>Температура</th>
-            <td>{{ data["sensors"]["solution-t"]["value"] }}°C</td>
-          </tr>
-        </tbody>
-      </table>
+            <p>
+              Конечно, в этой системе вода течет сверху вниз, благодаря
+              гравитации. В невесомости - на космическом корабле или
+              орбитальной станции - она работать не сможет. Зато на лунной или
+              марсианской базе подобным фермам найдется применение!
+            </p>
+      </div>
     </div>
-    <div class="column is-7 has-text-centered">
-      <div class="title is-5">Попробуйте дополненную реальность</div>
-      <div class="is-size-6"> Отсканируйте QR-код или введите aдрес в браузере своего мобильного телефона</div>
-      <div class="is-size-5">https://vdnh.hort.io</div>
-      <div class="is-size-6">Затем откройте верхний ящик под&nbsp;установкой и&nbsp;наведите камеру телефона
-        на&nbsp;черно-белые
-        маркеры в&nbsp;ящике</div>
-      <img src="{{ url_for('static', filename='qr.jpeg') }}" alt="" style="width: 260px; height: 260px;">
-      <div class="is-size-7">Для экскурсионных групп: воспользуйтесь очками дополненной реальности</div>
-      <div class="is-size-7 has-text-grey-light	">Поддерживаются только утройства с операционной системой Android 5+</div>
-    </div>
-  </div>
-</body>
-
+  </body>
 </html>

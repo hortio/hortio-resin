@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 volumes:
   control-data:
   gateway-data:
@@ -6,45 +6,39 @@ services:
   control:
     image: hortio/hortio-control-rpi:vdnh
     build: ./control
-    volumes: 
-      - 'control-data:/data'
+    volumes:
+      - "control-data:/data"
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
-    restart: always  
+    restart: always
     privileged: true
     depends_on:
       - owfs
   api:
     image: hortio/hortio-control-api:vdnh
     build: ./api
-    volumes: 
-      - 'control-data:/data'
+    volumes:
+      - "control-data:/data"
     ports:
       - "80:5000"
-    restart: always  
+    restart: always
   dashboard:
     image: hortio/hortio-web-dashboard:vdnh
     build: ./dashboard
     ports:
-      - "8081:8081"    
-    restart: always  
-  ar:
-    image: hortio/hortio-ar:vdnh
-    build: ./ar
-    ports:
-      - "8082:443"    
-    restart: always  
+      - "8081:8081"
+    restart: always
   owfs:
     image: hortio/hortio-owfs-rpi
-    ports: 
+    ports:
       - "4304:4304"
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
-    restart: always  
+    restart: always
     privileged: true
   gateway:
     image: insideout/rpi-insideout
     build: ./gateway
-    volumes: 
-      - 'gateway-data:/root/.ssh'
+    volumes:
+      - "gateway-data:/root/.ssh"
     restart: always

@@ -150,11 +150,11 @@ def day_of_cycle():
 
 
 def phase_description(day):
-    if day < 4:
+    if day < 6:
         description = u"Прорастание семян"
-    elif day < 10:
+    elif day < 20:
         description = u"Укоренениe проростков"
-    elif day < 19:
+    elif day < 39:
         description = u"Микрозелень"
     else:
         description = u"Вегетационный период"

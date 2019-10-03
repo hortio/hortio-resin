@@ -1,5 +1,5 @@
 .vscode
-
+.mypy_cache
 dashboard/.env
 control/.env
 api/.env
